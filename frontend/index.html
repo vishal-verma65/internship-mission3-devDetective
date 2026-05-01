@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dev-Detective</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Share+Tech+Mono&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./src/style.min.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+
+      <div class="header-top">
+        <div class="logo-group">
+          <span class="logo-icon">🔍</span>
+          <h1 class="logo-title">Dev<span class="logo-accent">Detective</span></h1>
+        </div>
+
+        <!-- Theme toggle -->
+        <button
+          class="theme-toggle"
+          id="theme-toggle"
+          data-theme-toggle
+          data-theme-next="light"
+          aria-label="Switch to light mode"
+          title="Toggle theme"
+        >
+          <span class="theme-icon" aria-hidden="true">☀️</span>
+        </button>
+      </div>
+
+      <p class="logo-tagline"> // uncover the coder behind the commits </p>
+
+      <nav class="mode-tabs" role="tablist">
+        <button class="tab-btn active" id="tab-search" role="tab" aria-selected="true" data-tab="search">
+          <span class="tab-icon">🕵️</span> Investigate
+        </button>
+        <button class="tab-btn" id="tab-battle" role="tab" aria-selected="false" data-tab="battle">
+          <span class="tab-icon">⚔️</span> Battle Mode
+        </button>
+      </nav>
+
+    </div>
+    <div class="scanline-overlay" aria-hidden="true"></div>
+  </header>
+
+
+  <main class="main-content">
+
+    <!--  SEARCH PANEL  -->
+    <section class="panel" id="panel-search" role="tabpanel" aria-labelledby="tab-search">
+
+      <div class="search-wrapper">
+        <div class="search-bar">
+          <span class="search-icon" aria-hidden="true">@</span>
+          <input
+            type="text"
+            id="search-input"
+            class="search-input"
+            placeholder="enter github username..."
+            autocomplete="off"
+            spellcheck="false"
+            aria-label="GitHub username"
+            aria-autocomplete="list"
+            aria-controls="history-dropdown"
+          />
+          <button class="search-btn" id="search-btn" aria-label="Search">
+            <span class="btn-text">SEARCH</span>
+            <span class="btn-loader" aria-hidden="true"></span>
+          </button>
+        </div>
+        <!-- history dropdown injected here by history.js -->
+        <p class="search-hint">Press <kbd>Enter</kbd> or click SEARCH &mdash; recent searches shown on focus</p>
+      </div>
+
+      <!-- State: idle -->
+      <div class="state-idle" id="state-idle">
+        <div class="idle-graphic" aria-hidden="true">
+          <div class="magnifier">🔎</div>
+          <div class="idle-lines">
+            <span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+        <p class="idle-text">No suspect identified. Start your investigation above.</p>
+      </div>
+
+      <!-- State: loading -->
+      <div class="state-loading hidden" id="state-loading" aria-live="polite">
+        <div class="loading-dots" aria-label="Loading">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <p class="loading-text">Pulling records from the database...</p>
+      </div>
+
+      <!-- State: error -->
+      <div class="state-error hidden" id="state-error" role="alert">
+        <span class="error-icon" aria-hidden="true">✗</span>
+        <p class="error-message" id="error-message">User not found. Check the username and try again.</p>
+      </div>
+
+      <!-- State: profile result -->
+      <div class="state-result hidden" id="state-result">
+
+        <!-- Profile Card -->
+        <article class="profile-card" id="profile-card">
+          <div class="card-header-strip"></div>
+          <div class="profile-body">
+            <div class="avatar-col">
+              <div class="avatar-frame">
+                <img src="" alt="" id="profile-avatar" class="profile-avatar" width="100" height="100" />
+                <div class="avatar-overlay" aria-hidden="true"></div>
+              </div>
+              <div class="profile-badge" id="profile-badge">SUBJECT</div>
+            </div>
+            <div class="profile-info">
+              <div class="profile-meta-row">
+                <span class="profile-label">NAME</span>
+                <h2 class="profile-name" id="profile-name">—</h2>
+              </div>
+              <div class="profile-meta-row">
+                <span class="profile-label">ALIAS</span>
+                <a class="profile-login" id="profile-login" href="#" target="_blank" rel="noopener">—</a>
+              </div>
+              <div class="profile-meta-row">
+                <span class="profile-label">BIO</span>
+                <p class="profile-bio" id="profile-bio">—</p>
+              </div>
+              <div class="profile-meta-row">
+                <span class="profile-label">FILED</span>
+                <span class="profile-date" id="profile-date">—</span>
+              </div>
+              <div class="profile-meta-row" id="portfolio-row">
+                <span class="profile-label">SITE</span>
+                <a class="profile-url" id="profile-url" href="#" target="_blank" rel="noopener">—</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stats Strip -->
+          <div class="stats-strip">
+            <div class="stat-item">
+              <span class="stat-value" id="stat-repos">0</span>
+              <span class="stat-label">Repos</span>
+            </div>
+            <div class="stat-divider" aria-hidden="true"></div>
+            <div class="stat-item">
+              <span class="stat-value" id="stat-followers">0</span>
+              <span class="stat-label">Followers</span>
+            </div>
+            <div class="stat-divider" aria-hidden="true"></div>
+            <div class="stat-item">
+              <span class="stat-value" id="stat-following">0</span>
+              <span class="stat-label">Following</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Repositories Section -->
+        <section class="repos-section" id="repos-section" aria-labelledby="repos-heading">
+          <div class="section-header">
+            <h3 class="section-title" id="repos-heading">
+              <span class="section-icon" aria-hidden="true">📁</span>
+              TOP REPOSITORIES
+            </h3>
+            <span class="section-badge" id="repos-badge">—</span>
+          </div>
+          <ul class="repo-list" id="repo-list" aria-label="Repository list">
+            <!-- Repo items injected by JS -->
+          </ul>
+        </section>
+
+      </div>
+    </section>
+
+
+    <!--  BATTLE PANEL  -->
+    <section class="panel hidden" id="panel-battle" role="tabpanel" aria-labelledby="tab-battle">
+
+      <div class="battle-header">
+        <h2 class="battle-title">⚔️ Developer Battle</h2>
+        <p class="battle-subtitle">Who reigns supreme? Enter two GitHub usernames to find out.</p>
+      </div>
+
+      <div class="battle-inputs">
+        <div class="battle-input-group">
+          <label class="battle-label" for="battle-input-1">Challenger 1</label>
+          <input type="text" id="battle-input-1" class="battle-input" placeholder="username..." autocomplete="off" spellcheck="false" />
+        </div>
+        <div class="battle-vs" aria-hidden="true">VS</div>
+        <div class="battle-input-group">
+          <label class="battle-label" for="battle-input-2">Challenger 2</label>
+          <input type="text" id="battle-input-2" class="battle-input" placeholder="username..." autocomplete="off" spellcheck="false" />
+        </div>
+      </div>
+
+      <div class="battle-controls">
+        <div class="battle-metric-toggle">
+          <span class="toggle-label">Compare by:</span>
+          <div class="toggle-pills" role="group" aria-label="Compare metric">
+            <button class="pill active" id="pill-followers" data-metric="followers">Followers</button>
+            <button class="pill" id="pill-stars" data-metric="stars">Total Stars</button>
+          </div>
+        </div>
+        <button class="battle-btn" id="battle-btn">⚔️ FIGHT</button>
+      </div>
+
+      <!-- Battle loading -->
+      <div class="state-loading hidden" id="battle-loading" aria-live="polite">
+        <div class="loading-dots">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <p class="loading-text">Gathering intel on both suspects...</p>
+      </div>
+
+      <!-- Battle error -->
+      <div class="state-error hidden" id="battle-error" role="alert">
+        <span class="error-icon" aria-hidden="true">✗</span>
+        <p class="error-message" id="battle-error-message">Could not fetch one or both users.</p>
+      </div>
+
+      <!-- Battle result -->
+      <div class="battle-result hidden" id="battle-result">
+        <div class="battle-cards" id="battle-cards"><!-- Injected by JS --></div>
+        <div class="verdict-banner" id="verdict-banner"><!-- Injected by JS --></div>
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <footer class="site-footer">
+    <p>Dev-Detective &mdash; Powered by <a href="https://docs.github.com/en/rest" target="_blank" rel="noopener">GitHub REST API</a></p>
+  </footer>
+
+  <script src="./src/js/utils.js"></script>
+  <script src="./src/js/api.js"></script>
+  <script src="./src/js/storage.js"></script>
+  <script src="./src/js/toast.js"></script>
+  <script src="./src/js/theme.js"></script>
+  <script src="./src/js/ui.js"></script>
+  <script src="./src/js/history.js"></script>
+  <script src="./src/main.js"></script>
+</body>
+</html>
