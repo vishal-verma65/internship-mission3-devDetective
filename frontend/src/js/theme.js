@@ -1,3 +1,5 @@
+import storage from './storage.js';
+
 const theme = (() => {
 
   const THEMES   = Object.freeze(['dark', 'light']);
@@ -64,3 +66,5 @@ const theme = (() => {
   return Object.freeze({ init, current, set, toggle, resetToSystem });
 
 })();
+
+export default theme;

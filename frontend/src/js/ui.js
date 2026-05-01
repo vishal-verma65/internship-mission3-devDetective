@@ -1,3 +1,5 @@
+import utils from './utils.js';
+
 const ui = (() => {
 
   // Thin wrapper around getElementById that throws clearly when an expected element is missin/ 
@@ -336,3 +338,5 @@ const ui = (() => {
   });
 
 })();
+
+export default ui;

@@ -58,3 +58,5 @@ const api = (() => {
   return Object.freeze({ getUser, getRepos, getUserWithAllRepos });
 
 })();
+
+export default api;

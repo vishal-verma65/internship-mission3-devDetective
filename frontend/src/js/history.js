@@ -1,3 +1,6 @@
+import storage from './storage.js';
+import toast from './toast.js';
+
 const historyUI = (() => {
 
   let _inputEl    = null;  
@@ -183,3 +186,5 @@ const historyUI = (() => {
   return Object.freeze({ init, open, close });
 
 })();
+
+export default historyUI;

@@ -19,6 +19,14 @@
 
 'use strict';
 
+import utils from './js/utils.js';
+import api from './js/api.js';
+import storage from './js/storage.js';
+import toast from './js/toast.js';
+import theme from './js/theme.js';
+import ui from './js/ui.js';
+import historyUI from './js/history.js';
+
 /*
    DOM refs — interactive controls only.
    All other DOM work is delegated to ui.js or module inits.

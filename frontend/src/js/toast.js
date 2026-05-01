@@ -150,3 +150,5 @@ const toast = (() => {
   return Object.freeze({ show, success, error, info, warning, dismissAll });
 
 })();
+
+export default toast;
